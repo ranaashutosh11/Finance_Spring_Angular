@@ -15,7 +15,7 @@ public class User {
 	@Column(length=10)
 	private String userName;
 	
-	private int userPhone;
+	private long userPhone;
 	
 	@Column(length=20)
 	private String userEmail;
@@ -50,11 +50,11 @@ public class User {
 		this.userName = userName;
 	}
 
-	public int getUserPhone() {
+	public long getUserPhone() {
 		return userPhone;
 	}
 
-	public void setUserPhone(int userPhone) {
+	public void setUserPhone(long userPhone) {
 		this.userPhone = userPhone;
 	}
 
@@ -106,7 +106,7 @@ public class User {
 		this.userCard = userCard;
 	}
 
-	public User(int userId, String userName, int userPhone, String userEmail, String userPass, String userConfirmPass,
+	public User(int userId, String userName, long userPhone, String userEmail, String userPass, String userConfirmPass,
 			String userAdd, double userSalary, String userCard) {
 		super();
 		this.userId = userId;
@@ -130,6 +130,8 @@ public class User {
 				+ userEmail + ", userPass=" + userPass + ", userConfirmPass=" + userConfirmPass + ", userAdd=" + userAdd
 				+ ", userSalary=" + userSalary + ", userCard=" + userCard + "]";
 	}
+
+	
 	
 	
 }
