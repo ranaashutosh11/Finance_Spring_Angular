@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.beans.User;
 import com.lti.services.UserServices;
+import com.lti.userexception.UserException;
 
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/user-api")
 public class UserController {
 
 	@Autowired
 	UserServices services;
-	
-	//  http://localhost:8060/user-api/adduser
+
 //	{
 //		   "userId":102,
 //		   "userName":"Rahul",
@@ -35,41 +35,56 @@ public class UserController {
 //		   "userSalary":60000,
 //		   "userCard":"Platinum"
 //		}
-	
+
+	// URL for adding a new User
+	// http://localhost:8060/user-api/adduser
+
 	@PostMapping("/adduser")
 	public int addUser(@RequestBody User user) {
-		int userId=services.addUser(user);
+		int userId = services.addUser(user);
 		return userId;
 	}
-	
-	//  http://localhost:8060/user-api/finduserbyname/Ashutosh
-	
-	@GetMapping("/finduserbyname/{name}")
-	public List<User> findUserbyName(@PathVariable("name") String userName){
-		List<User> myList=services.findUserbyName(userName);
+
+	// http://localhost:8060/user-api/getalluser
+
+	@GetMapping("/getalluser")
+	public List<User> getAllUser() {
+		List<User> myList = services.getAllUsers();
 		return myList;
 	}
-	
-    //  http://localhost:8060/user-api/updatebyPhone/101/8240434693
-	
+
+	// URL for finding a user by name
+	// http://localhost:8060/user-api/finduserbyname/Ashutosh
+
+	@GetMapping("/finduserbyname/{name}")
+	public List<User> findUserbyName(@PathVariable("name") String userName) {
+		List<User> myList = services.findUserbyName(userName);
+		return myList;
+	}
+
+	// URL for updating a user's Phone number
+	// http://localhost:8060/user-api/updatebyPhone/101/8240434693
+
 	@PutMapping("/updatebyPhone/{userId}/{newPhoneno}")
-	public String updatebyName(@PathVariable("userId") int userId, @PathVariable("newPhoneno") long newPhoneno){
-		int id=services.updatebyPhone(userId, newPhoneno);
-		return "Phone number for "+id+" updated";
-		
+	public String updatebyName(@PathVariable("userId") int userId, @PathVariable("newPhoneno") long newPhoneno) {
+		int id = services.updatebyPhone(userId, newPhoneno);
+		return "Phone number for " + id + " updated";
+
 	}
-	
-	 //  http://localhost:8060/user-api/validate/101/Ashutosh/abcd@
-	
+
+	// URL for validating a user
+	// http://localhost:8060/user-api/validate/101/Ashutosh/abcd@
+
 	@GetMapping("/validate/{userId}/{userName}/{userPass}")
-	public String validate(@PathVariable("userId") int userId, @PathVariable("userName") String userName, @PathVariable("userPass") String userPass) {
-		boolean res=services.Validate(userId, userName, userPass);
-		 if(res==true) {
-			 return "User Exists";
-		 }
-		 else {
-			 return "User don't Exists";
-		 }
+	public boolean validate(@PathVariable("userId") int userId, @PathVariable("userName") String userName,
+			@PathVariable("userPass") String userPass) throws UserException {
+		try {
+			boolean res = services.Validate(userId, userName, userPass);
+			return res;
+		} catch (UserException e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
 	}
-	 
+
 }

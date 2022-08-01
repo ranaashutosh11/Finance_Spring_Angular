@@ -2,37 +2,64 @@ package com.lti.beans;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Users")
+@Table(name = "Users")
 public class User {
-	
+
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="User_Seq") //generating sequence that is created in database
+	@SequenceGenerator(name="User_Seq", sequenceName="user_seq", allocationSize=1)
 	private int userId;
-	
-	@Column(length=10)
+
+	@Column(length = 10)
 	private String userName;
-	
+
 	private long userPhone;
-	
-	@Column(length=20)
+
+	@Column(length = 20)
 	private String userEmail;
-	
-	@Column(length=10)	
+
+	@Column(length = 10)
 	private String userPass;
-	
-	@Column(length=10)
+
+	@Column(length = 10)
 	private String userConfirmPass;
-	
-	@Column(length=30)
+
+	@Column(length = 30)
 	private String userAdd;
-	
+
 	private double userSalary;
-	
-	@Column(length=10)
+
+	@Column(length = 10)
 	private String userCard;
+
+//	private int cardNo;
+	
+	
+//	//@OneToMany(mappedBy = "cardNo")
+//	private CardDetails cardDetail;
+//
+//	public CardDetails getCardDetail() {
+//		return cardDetail;
+//	}
+//
+//	public void setCardDetail(CardDetails cardDetail) {
+//		this.cardDetail = cardDetail;
+//	}
+
+//	public int getCardNo() {
+//		return cardNo;
+//	}
+//
+//	public void setCardNo(int cardNo) {
+//		this.cardNo = cardNo;
+//	}
 
 	public int getUserId() {
 		return userId;
@@ -131,7 +158,4 @@ public class User {
 				+ ", userSalary=" + userSalary + ", userCard=" + userCard + "]";
 	}
 
-	
-	
-	
 }

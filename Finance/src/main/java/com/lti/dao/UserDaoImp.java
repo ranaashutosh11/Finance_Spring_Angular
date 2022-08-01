@@ -3,6 +3,7 @@ package com.lti.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.lti.beans.User;
+import com.lti.userexception.UserException;
 
 @Repository
 public class UserDaoImp implements UserDao {
@@ -23,6 +25,14 @@ public class UserDaoImp implements UserDao {
 		em.persist(user);
 		return user.getUserId();
 	}
+	
+	@Override
+	public List<User> getAllUsers() {
+		Query qry=em.createQuery("select u from User u");
+		List<User> myList=qry.getResultList();
+		return myList;
+	}
+
 
 	@Override
 	@Transactional
@@ -45,7 +55,8 @@ public class UserDaoImp implements UserDao {
 
 	@Override
 	// Have to do exception handeling
-	public boolean Validate(int userId, String userName, String userPass) {
+	public boolean Validate(int userId, String userName, String userPass) throws UserException {
+		try {
 		User user = em.find(User.class, userId);
 		if ((user.getUserName()).equalsIgnoreCase(userName) && (user.getUserPass()).equals(userPass)) {
 			return true;
@@ -53,5 +64,12 @@ public class UserDaoImp implements UserDao {
 			return false;
 		}
 	}
+		catch(Exception e) {
+			throw new UserException("User not found");
+		}
+	}
 
+	
+
+	
 }
