@@ -28,10 +28,10 @@ public class CardDetailsController {
 	public String addCard(@PathVariable("userId") int userId, @PathVariable("cardType") String cardType) {
 		CardDetails card=new CardDetails();
 		if(cardType.equalsIgnoreCase("Gold")) {
-			card.setCardLimit(200000);
+			card.setCardLimit(500000);
 		}
 		else if(cardType.equalsIgnoreCase("Titanium")) {
-			card.setCardLimit(500000);
+			card.setCardLimit(1000000);
 		}
 		int cardNo=services.addCard(userId, cardType, card.getCardLimit());
 		return "Card No "+ cardNo+" added";

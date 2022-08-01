@@ -66,7 +66,7 @@ public class UserController {
 	// http://localhost:8060/user-api/updatebyPhone/101/8240434693
 
 	@PutMapping("/updatebyPhone/{userId}/{newPhoneno}")
-	public String updatebyName(@PathVariable("userId") int userId, @PathVariable("newPhoneno") long newPhoneno) {
+	public String updatebyPhone(@PathVariable("userId") int userId, @PathVariable("newPhoneno") long newPhoneno) {
 		int id = services.updatebyPhone(userId, newPhoneno);
 		return "Phone number for " + id + " updated";
 
