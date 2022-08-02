@@ -27,7 +27,7 @@ public class CardDetails {
 	
 	private double cardLimit;
 	
-	public double balance=cardLimit;
+	private double balance;
 	
 
 	public double getBalance() {

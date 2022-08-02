@@ -19,11 +19,12 @@ public class CardDetailsDaoImpl implements CardDetailsDao {
 	
 	@Override
 	@Transactional
-	public int addCard(int userId, String cardType, double cardLimit) {
+	public int addCard(int userId, String cardType, double cardLimit, double balance) {
 		CardDetails card=new CardDetails();
 		card.setUserId(userId);
 		card.setCardType(cardType);
 		card.setCardLimit(cardLimit);
+		card.setBalance(balance);
 		em.persist(card);		
 		return card.getCardNo();
 	}
@@ -44,9 +45,37 @@ public class CardDetailsDaoImpl implements CardDetailsDao {
 	}
 
 	@Override
-	public double getBalance() {
-		// TODO Auto-generated method stub
-		return 0;
+	@Transactional
+	public double deductBalbyId(int userId, double amt) {
+        Query qry=em.createQuery("select c from CardDetails c where c.userId=:id");
+        qry.setParameter("id", userId);
+        List<CardDetails> myCard=qry.getResultList();
+        double intialBal=myCard.get(0).getBalance();
+        double finalBal=intialBal-amt;
+        myCard.get(0).setBalance(finalBal);
+        Query qry1=em.createQuery("UPDATE CardDetails c SET c.balance=:finalBal "
+                + "WHERE c.userId=:id");
+        qry1.setParameter("finalBal", finalBal);
+        qry1.setParameter("id", userId);
+        int rowsUpdated = qry1.executeUpdate();
+		return rowsUpdated;
+	}
+
+	@Override
+	@Transactional
+	public double addBalbyId(int userId, double amt) {
+		Query qry=em.createQuery("select c from CardDetails c where c.userId=:id");
+        qry.setParameter("id", userId);
+        List<CardDetails> myCard=qry.getResultList();
+        double intialBal=myCard.get(0).getBalance();
+        double finalBal=intialBal+amt;
+        myCard.get(0).setBalance(finalBal);
+        Query qry1=em.createQuery("UPDATE CardDetails c SET c.balance=:finalBal "
+                + "WHERE c.userId=:id");
+        qry1.setParameter("finalBal", finalBal);
+        qry1.setParameter("id", userId);
+        int rowsUpdated = qry1.executeUpdate();
+		return rowsUpdated;
 	}
 
 	

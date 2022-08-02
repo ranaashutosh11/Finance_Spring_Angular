@@ -38,7 +38,6 @@ public class UserDaoImp implements UserDao {
 	@Transactional
 	public int updatebyPhone(int userId, long newPhoneno) {
 		User user = em.find(User.class, userId);
-		;
 		user.setUserPhone(newPhoneno);
 		User temp = em.merge(user);
 		return temp.getUserId();

@@ -15,8 +15,8 @@ public class CardDetailsServicesImpl implements CardDetailsServices{
 	CardDetailsDao dao;
 	
 	@Override
-	public int addCard(int userId, String cardType, double cardLimit) {
-		return dao.addCard(userId, cardType, cardLimit);
+	public int addCard(int userId, String cardType, double cardLimit, double balance) {
+		return dao.addCard(userId, cardType, cardLimit, balance);
 	}
 
 	@Override
@@ -30,8 +30,13 @@ public class CardDetailsServicesImpl implements CardDetailsServices{
 	}
 
 	@Override
-	public double getBalance() {
-		return dao.getBalance();
+	public double deductBalbyId(int userId, double amt) {
+		return dao.deductBalbyId(userId, amt);
+	}
+
+	@Override
+	public double addBalbyId(int userId, double amt) {
+		return dao.addBalbyId(userId, amt);
 	}
 
 }
